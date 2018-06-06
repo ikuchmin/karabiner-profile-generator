@@ -11,9 +11,13 @@ import java.util.logging.Logger
 
 import static Main.Modifier.COMMAND
 import static Main.Modifier.LEFT_COMMAND
+import static Main.Modifier.LEFT_CONTROL
 import static Main.Modifier.LEFT_OPTION
 import static Main.Modifier.LEFT_SHIFT
 import static Main.Modifier.OPTION
+import static Main.Modifier.RIGHT_COMMAND
+import static Main.Modifier.RIGHT_CONTROL
+import static Main.Modifier.RIGHT_OPTION
 import static Main.Modifier.SHIFT
 import static Main.Modifier.FN
 
@@ -108,6 +112,24 @@ class Main extends Script {
                                '⇧':'', '⎋':'', 'z':'', 'x':'', 'c':'', 'v':'', 'b':'', 'n':'', 'm':'', ',':'', '.':'', '/':'',
                                'fn':'', 'f16':'', '⌃':'', '⌥':'', '**␣**':'', '←':'', '↑':'previous_page', '↓':'next_page', '→':'']
 
+    Map controlEmacsKeymap = ['§':'', '1':'', '2':'', '3':'', '4':'', '5':'', '6':'', '7':'', '8':'', '9':'', '0':'', '-':'', '=':'', '⌫':'',
+                               '⇥':'', 'q':'', 'w':'', 'e':'', 'r':'', 't':'', 'y':'', 'u':'control_u', 'i':'', 'o':'', 'p':'', '[':'', ']':'', '↩':'',
+                               '⌘':'', 'a':'', 's':'', 'd':'', 'f':'', 'g':'', 'h':'', 'j':'', 'k':'', 'l':'', ';':'', '\'':'', '\\':'',
+                               '⇧':'', '⎋':'', 'z':'', 'x':'control_x', 'c':'control_c', 'v':'', 'b':'', 'n':'', 'm':'', ',':'', '.':'', '/':'',
+                               'fn':'', 'f16':'', '⌃':'', '⌥':'', '**␣**':'', '←':'', '↑':'', '↓':'', '→':'']
+
+    Map spectacleKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
+                       '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': 'previous_third', 'i': 'top_half', 'o': 'next_third', 'p': '', '[': '', ']': '', '↩': '',
+                       '⌘' : '', 'a': '', 's': '', 'd': '', 'f': 'fullscreen', 'g': '', 'h': '', 'j': 'left_half', 'k': 'bottom_half', 'l': 'right_half', ';': '', '\'': '', '\\': '',
+                       '⇧' : '', '⎋': '', 'z': 'undo', 'x': '', 'c': 'center', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
+                       'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
+
+    Map spectacleShiftKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
+                           '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': 'upper_left', 'i': 'make_larger', 'o': 'upper_right', 'p': '', '[': '', ']': '', '↩': '',
+                           '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': 'lower_left', 'k': 'make_smaller', 'l': 'lower_right', ';': '', '\'': '', '\\': '',
+                           '⇧' : '', '⎋': '', 'z': 'redo', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
+                           'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
+
     Map prDvorakKeymap = ['§' : '$', '1': '&', '2': '[', '3': '{', '4': '}', '5': '(', '6': '=', '7': '*', '8': ')', '9': '+', '0': ']', '-': '!', '=': '#', '⌫': '',
                           '⇥' : '', 'q': ';', 'w': ',', 'e': '.', 'r': 'p', 't': 'y', 'y': 'f', 'u': 'g', 'i': 'c', 'o': 'r', 'p': 'l', '[': '/', ']': '@', '↩': '',
                           '⌘' : '', 'a': 'a', 's': 'o', 'd': 'e', 'f': 'u', 'g': 'i', 'h': 'd', 'j': 'h', 'k': 't', 'l': 'n', ';': 's', '\'': '-', '\\': '\\',
@@ -131,16 +153,29 @@ class Main extends Script {
                                        '⌘':'', 'a':'shell_command', 's':'previous_pane', 'd':'', 'f':'', 'g':'remove_line_to_home', 'h':'end', 'j':'previous_bracket', 'k':'next_page', 'l':'next_bracket', ';':'', '\'':'', '\\':'',
                                        '⇧':'', '⎋':'', 'z':'redo', 'x':'cut_all', 'c':'copy_all', 'v':'paste_buffer', 'b':'', 'n':'end_document', 'm':'', ',':'', '.':'', '/':'toggle_camel',
                                        'fn':'', 'f16':'', '⌃':'', '⌥':'', '**␣**':'', '←':'', '↑':'', '↓':'', '→':'']
+
+    Map snappingWindowsKeymap = ['§': '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
+                                 '⇥': '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': 'previous_third', 'i': 'top_half', 'o': 'next_third', 'p': '', '[': '', ']': '', '↩': '',
+                                 '⌘': '', 'a': '', 's': '', 'd': '', 'f': 'fullscreen', 'g': '', 'h': '', 'j': 'left_half', 'k': 'bottom_half', 'l': 'right_half', ';': '', '\'': '', '\\': '',
+                                 '⇧': '', '⎋': '', 'z': 'undo', 'x': '', 'c': 'center', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
+                                 'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
+
+    Map snappingShiftWindowsKeymap = ['§': '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
+                                 '⇥': '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': 'upper_left', 'i': 'make_larger', 'o': 'upper_right', 'p': '', '[': '', ']': '', '↩': '',
+                                 '⌘': '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': 'lower_left', 'k': 'make_smaller', 'l': 'lower_right', ';': '', '\'': '', '\\': '',
+                                 '⇧': '', '⎋': '', 'z': 'redo', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
+                                 'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
+
     Map actionErgoEmacsKeymap = ['§':'', '1':'', '2':'', '3':'', '4':'', '5':'', '6':'', '7':'', '8':'', '9':'', '0':'', '-':'', '=':'', '⌫':'',
-                                 '⇥':'', 'q':'', 'w':'', 'e':'', 'r':'', 't':'', 'y':'', 'u':'', 'i':'', 'o':'', 'p':'', '[':'', ']':'', '↩':'',
-                                 '⌘':'', 'a':'', 's':'open', 'd':'', 'f':'', 'g':'', 'h':'', 'j':'', 'k':'', 'l':'', ';':'', '\'':'', '\\':'',
-                                 '⇧':'', '⎋':'', 'z':'', 'x':'', 'c':'', 'v':'', 'b':'', 'n':'', 'm':'', ',':'', '.':'', '/':'',
+                                 '⇥':'', 'q':'', 'w':'', 'e':'', 'r':'', 't':'', 'y':'search_forward', 'u':'', 'i':'', 'o':'', 'p':'', '[':'', ']':'', '↩':'',
+                                 '⌘':'', 'a':'', 's':'open', 'd':'control_x', 'f':'control_c', 'g':'control_u', 'h':'', 'j':'', 'k':'', 'l':'', ';':'', '\'':'', '\\':'',
+                                 '⇧':'', '⎋':'', 'z':'undo', 'x':'cut', 'c':'copy', 'v':'paste', 'b':'', 'n':'', 'm':'', ',':'', '.':'', '/':'',
                                  'fn':'', 'f16':'', '⌃':'', '⌥':'', '**␣**':'', '←':'', '↑':'', '↓':'', '→':'']
 
     Map actionShiftErgoEmacsKeymap = ['§':'', '1':'', '2':'', '3':'', '4':'', '5':'', '6':'', '7':'', '8':'', '9':'', '0':'', '-':'', '=':'', '⌫':'',
-                                      '⇥':'', 'q':'', 'w':'', 'e':'', 'r':'', 't':'', 'y':'', 'u':'', 'i':'', 'o':'', 'p':'', '[':'', ']':'', '↩':'',
+                                      '⇥':'', 'q':'', 'w':'', 'e':'', 'r':'', 't':'', 'y':'search_backward', 'u':'', 'i':'', 'o':'', 'p':'', '[':'', ']':'', '↩':'',
                                       '⌘':'', 'a':'', 's':'os_open', 'd':'', 'f':'', 'g':'', 'h':'', 'j':'', 'k':'', 'l':'', ';':'', '\'':'', '\\':'',
-                                      '⇧':'', '⎋':'', 'z':'', 'x':'', 'c':'', 'v':'', 'b':'', 'n':'', 'm':'', ',':'', '.':'', '/':'',
+                                      '⇧':'', '⎋':'', 'z':'redo', 'x':'cut_all', 'c':'copy_all', 'v':'paste_menu', 'b':'', 'n':'', 'm':'', ',':'', '.':'', '/':'',
                                       'fn':'', 'f16':'', '⌃':'', '⌥':'', '**␣**':'', '←':'', '↑':'', '↓':'', '→':'']
 
     Map selectedErgoEmacsKeymap = ['§': '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
@@ -175,7 +210,7 @@ class Main extends Script {
 
     Map jetBrainsMacOs105CommandKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
                                           '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': '', ']': '', '↩': '',
-                                          '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
+                                          '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': 'j-mode', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
                                           '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
                                           'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
 
@@ -187,7 +222,7 @@ class Main extends Script {
 
     Map jetBrainsMacOs105CommandOptionKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
                        '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': 'previous_bracket', ']': 'next_bracket', '↩': '',
-                       '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
+                       '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': 'navigate-back', 'k': '', 'l': 'navigate-forward', ';': '', '\'': '', '\\': '',
                        '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
                        'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
 
@@ -208,6 +243,18 @@ class Main extends Script {
                                          '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
                                          '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
                                          'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
+
+    Map jetBrainsMacOs105JModeKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
+                       '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': '', ']': '', '↩': '',
+                       '⌘' : '', 'a': '', 's': '', 'd': '', 'f': 'declaration', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
+                       '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
+                       'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
+
+    Map jetBrainsMacOs105JModeCommandKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
+                                        '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': '', ']': '', '↩': '',
+                                        '⌘' : '', 'a': '', 's': '', 'd': '', 'f': 'quick-documentation', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
+                                        '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
+                                        'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
 
     Map emptyKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
                        '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': '', ']': '', '↩': '',
@@ -244,7 +291,7 @@ class Main extends Script {
                                       search_backward       : [[key_code: 'f', modifiers: [COMMAND]], enableSearchModeAction],
     ]
 
-    Map optionShiftErgoEmacsSymbols = [os_open: [[key_code: 'o', modifiers: [LEFT_COMMAND, LEFT_SHIFT]]]]
+    Map optionShiftErgoEmacsSymbols = [os_open: [[key_code: 'o', modifiers: [LEFT_COMMAND, SHIFT]]]]
 
     Map prSearchErgoEmacsSymbols = [return_search: [disableSearchModeAction, [key_code: 'escape', modifiers: []]]]
 
@@ -255,15 +302,19 @@ class Main extends Script {
              shiftHardware                 : sgh([keymap: hardwareKeymap, modifiers: [SHIFT]]),
              us                            : sgh([keymap: usKeymap, modifiers: []]),
              shiftUs                       : sgh([keymap: shiftUsKeymap, modifiers: [SHIFT]]),
-             commandMacOs                  : sgh([keymap: commandMacOsKeymap, modifiers: [COMMAND]]),
-             shiftCommandMacOs             : sgh([keymap: commandShiftMacOsKeymap, modifiers: [COMMAND, SHIFT]]),
-             optionMacOs                   : sgh([keymap: optionMacOsKeymap, modifiers: [OPTION]]),
-             shiftOptionMacOs              : sgh([keymap: optionShiftMacOsKeymap, modifiers: [OPTION, SHIFT]]),
-             optionCommandMacOs            : sgh([keymap: optionCommandMacOsKeymap, modifiers: [OPTION, COMMAND]]),
-             shiftOptionCommandMacOs       : sgh([keymap: shiftOptionCommandMacOsKeymap, modifiers: [OPTION, COMMAND, SHIFT]]),
+             commandMacOs                  : sgh([keymap: commandMacOsKeymap, modifiers: [LEFT_COMMAND]]),
+             shiftCommandMacOs             : sgh([keymap: commandShiftMacOsKeymap, modifiers: [LEFT_COMMAND, SHIFT]]),
+             optionMacOs                   : sgh([keymap: optionMacOsKeymap, modifiers: [LEFT_OPTION]]),
+             shiftOptionMacOs              : sgh([keymap: optionShiftMacOsKeymap, modifiers: [LEFT_OPTION, SHIFT]]),
+             optionCommandMacOs            : sgh([keymap: optionCommandMacOsKeymap, modifiers: [LEFT_OPTION, LEFT_COMMAND]]),
+             shiftOptionCommandMacOs       : sgh([keymap: shiftOptionCommandMacOsKeymap, modifiers: [LEFT_OPTION, LEFT_COMMAND, SHIFT]]),
              fnMacOs                       : sgh([keymap: fnMacOsKeymap, modifiers: [FN]]),
              fnShiftMacOs                  : sgh([keymap: fnShiftMacOsKeymap, modifiers: [FN, SHIFT]]),
-             fnOptionMacOs                 : sgh([keymap: fnOptionMacOsKeymap, modifiers: [FN, OPTION]]),
+             fnOptionMacOs                 : sgh([keymap: fnOptionMacOsKeymap, modifiers: [FN, LEFT_OPTION]]),
+             controlMacOs                  : sgh([keymap: controlEmacsKeymap, modifiers: [LEFT_CONTROL]]),
+
+             spectacle                     : sgh([keymap: spectacleKeymap, modifiers: [RIGHT_COMMAND, RIGHT_OPTION, RIGHT_CONTROL]]),
+             spectacleShift                : sgh([keymap: spectacleShiftKeymap, modifiers: [RIGHT_COMMAND, RIGHT_OPTION, RIGHT_CONTROL, SHIFT]]),
 
              prDvorak                      : sg([keymap   : prDvorakKeymap,
                                                  symbols  : combine('us', 'shiftUs', prErgoEmacsSymbols),
@@ -273,18 +324,21 @@ class Main extends Script {
                                                  symbols  : combine('us', 'shiftUs', prErgoEmacsSymbols),
                                                  actions  : [disableSelectedModeAction],
                                                  generator: { key, baseLayout -> baseLayout[key.value] }]),
+
              navigationErgoEmacs           : [keymap : navigationErgoEmacsKeymap,
                                               symbols: combine('commandMacOs', 'optionCommandMacOs',
                                                       'shiftOptionCommandMacOs', 'optionMacOs', 'fnMacOs', 'fnOptionMacOs',
                                                       'us', 'hardware', prErgoEmacsSymbols, navigationErgoEmacsSymbols)],
-
              navigationShiftErgoEmacs      : [keymap : navigationShiftErgoEmacsKeymap,
                                               symbols: combine('commandMacOs', 'shiftCommandMacOs',
                                                       'optionMacOs', 'shiftOptionMacOs', 'fnOptionMacOs', 'shiftHardware',
                                                       prErgoEmacsSymbols, navigationErgoEmacsSymbols)],
 
+             snappingWindow                : [keymap: snappingWindowsKeymap, symbols: combine('spectacle')],
+             snappingShiftWindow           : [keymap: snappingShiftWindowsKeymap, symbols: combine('spectacleShift')],
+
              actionErgoEmacs               : [keymap : actionErgoEmacsKeymap,
-                                              symbols: combine('commandMacOs')],
+                                              symbols: combine('commandMacOs', 'controlMacOs', navigationErgoEmacsSymbols)],
              actionShiftErgoEmacs          : [keymap : actionShiftErgoEmacsKeymap,
                                               symbols: combine(optionShiftErgoEmacsSymbols)],
              selectedErgoEmacs             : [keymap : selectedErgoEmacsKeymap,
@@ -296,16 +350,17 @@ class Main extends Script {
                                               symbols: combine('commandMacOs')],
              searchActionShiftErgoEmacs    : [keymap : searchActionShiftErgoEmacsKeymap,
                                               symbols: combine('shiftCommandMacOs')],
+
              jetBrainsMacOs105Command      : sgh([keymap   : jetBrainsMacOs105CommandKeymap,
                                                   modifiers: [LEFT_COMMAND]]),
              jetBrainsMacOs105CommandShift : sgh([keymap   : jetBrainsMacOs105CommandShiftKeymap,
-                                                  modifiers: [LEFT_COMMAND, LEFT_SHIFT]]),
+                                                  modifiers: [LEFT_COMMAND, SHIFT]]),
              jetBrainsMacOs105CommandOption: sgh([keymap   : jetBrainsMacOs105CommandOptionKeymap,
                                                   modifiers: [LEFT_COMMAND, LEFT_OPTION]]),
              jetBrainsMacOs105Option       : sgh([keymap   : jetBrainsMacOs105OptionKeymap,
                                                   modifiers: [LEFT_OPTION]]),
              jetBrainsMacOs105OptionShift  : sgh([keymap   : jetBrainsMacOs105OptionShiftKeymap,
-                                                  modifiers: [LEFT_OPTION, LEFT_SHIFT]]),
+                                                  modifiers: [LEFT_OPTION, SHIFT]]),
              jetBrainsMacOs105Fn           : sgh([keymap: jetBrainsMacOs105FnKeymap, modifiers: [FN]]),
              jetBrainsNavigation           : [keymap : navigationErgoEmacsKeymap,
                                               symbols: combine('jetBrainsMacOs105CommandShift', 'jetBrainsMacOs105Command',
@@ -327,71 +382,83 @@ class Main extends Script {
                                        modifiers : [mandatory: [SHIFT], optional: []],
                                        conditions: [enLayoutCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [jetbrains+navigation]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [jetbrains+navigation]',
                                        layout    : layouts.jetBrainsNavigation,
                                        baseLayout: layouts.empty,
-                                       modifiers : [mandatory: [OPTION], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION], optional: []],
                                        conditions: [intelliJIdeaAppCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [jetbrains+navigation+shift]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [jetbrains+navigation+shift]',
                                        layout    : layouts.jetBrainsNavigationShift,
                                        baseLayout: layouts.empty,
-                                       modifiers : [mandatory: [OPTION, SHIFT], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION, SHIFT], optional: []],
                                        conditions: [intelliJIdeaAppCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [selected_mode]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [selected_mode]',
                                        layout    : layouts.selectedErgoEmacs,
                                        baseLayout: layouts.empty,
-                                       modifiers : [mandatory: [OPTION], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION], optional: []],
                                        conditions: [selectedModeCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [selected_mode+shift]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [selected_mode+shift]',
                                        layout    : layouts.selectedShiftErgoEmacs,
                                        baseLayout: layouts.empty,
-                                       modifiers : [mandatory: [OPTION, SHIFT], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION, SHIFT], optional: []],
                                        conditions: [selectedModeCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [search_mode]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [search_mode]',
                                        layout    : layouts.searchPrErgoEmacs,
                                        baseLayout: layouts.empty,
                                        modifiers : [mandatory: [], optional: []],
                                        conditions: [searchModeCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [search_mode+action]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [search_mode+action]',
                                        layout    : layouts.searchActionErgoEmacs,
                                        baseLayout: layouts.empty,
-                                       modifiers : [mandatory: [OPTION], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION], optional: []],
                                        conditions: [searchModeCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [search_mode+action+shift]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [search_mode+action+shift]',
                                        layout    : layouts.searchActionShiftErgoEmacs,
                                        baseLayout: layouts.empty,
-                                       modifiers : [mandatory: [OPTION, SHIFT], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION, SHIFT], optional: []],
                                        conditions: [searchModeCondition]],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [navigation]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [navigation]',
                                        layout    : layouts.navigationErgoEmacs,
                                        baseLayout: layouts.optionMacOs,
-                                       modifiers : [mandatory: [OPTION], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION], optional: []],
                                        conditions: []],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [navigation+shift]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [navigation+shift]',
                                        layout    : layouts.navigationShiftErgoEmacs,
                                        baseLayout: layouts.shiftOptionMacOs,
-                                       modifiers : [mandatory: [OPTION, SHIFT], optional: []],
+                                       modifiers : [mandatory: [LEFT_OPTION, SHIFT], optional: []],
                                        conditions: []],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [action]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [action]',
                                        layout    : layouts.actionErgoEmacs,
                                        baseLayout: layouts.commandMacOs,
-                                       modifiers : [mandatory: [COMMAND], optional: []],
+                                       modifiers : [mandatory: [LEFT_COMMAND], optional: []],
                                        conditions: []],
 
-                                      [desc      : 'Remap keys to use Programming Dvorak Layout [action+shift]',
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [action+shift]',
                                        layout    : layouts.actionShiftErgoEmacs,
                                        baseLayout: layouts.shiftCommandMacOs,
-                                       modifiers : [mandatory: [COMMAND, SHIFT], optional: []],
-                                       conditions: []]
+                                       modifiers : [mandatory: [LEFT_COMMAND, SHIFT], optional: []],
+                                       conditions: []],
+
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [snapping]',
+                                       layout    : layouts.snappingWindow,
+                                       baseLayout: layouts.empty,
+                                       modifiers : [mandatory: [RIGHT_OPTION], optional: []],
+                                       conditions: []],
+
+                                      [desc      : 'Remap keys to use ErgoEmacs Layout [snapping+shift]',
+                                       layout    : layouts.snappingShiftWindow,
+                                       baseLayout: layouts.empty,
+                                       modifiers : [mandatory: [RIGHT_OPTION, SHIFT], optional: []],
+                                       conditions: []],
     ]
 
     def run() {
@@ -440,8 +507,12 @@ class Main extends Script {
         mapper.writeValue(System.out, karabinerComplexLayout)
     }
 
-
-
+    /**
+     * Create symbols by params
+     *
+     * @param params list of params
+     * @return symbols
+     */
     Map defaultSymbolsComposer(Map params) {
         Map layout = [:]
 
