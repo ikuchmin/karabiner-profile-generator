@@ -1,28 +1,13 @@
 #! /usr/bin/env groovy
 package ru.udya
 
-@groovy.lang.Grapes([
-        @Grab(group = 'com.fasterxml.jackson.core', module = 'jackson-core', version = '2.9.5'),
-        @Grab(group = 'com.fasterxml.jackson.core', module = 'jackson-databind', version = '2.9.5')
-])
-
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
 
 import java.util.logging.Logger
 
-import static ru.udya.layout.Application.Modifier.COMMAND
-import static ru.udya.layout.Application.Modifier.LEFT_COMMAND
-import static ru.udya.layout.Application.Modifier.LEFT_CONTROL
-import static ru.udya.layout.Application.Modifier.LEFT_OPTION
-import static ru.udya.layout.Application.Modifier.RIGHT_COMMAND
-import static ru.udya.layout.Application.Modifier.RIGHT_CONTROL
-import static ru.udya.layout.Application.Modifier.RIGHT_OPTION
-import static ru.udya.layout.Application.Modifier.SHIFT
-import static ru.udya.layout.Application.Modifier.FN
-
 @SuppressWarnings("GrMethodMayBeStatic")
-class Application extends Script {
+class Main /*extends Script*/ {
 
 
     enum Modifier {
@@ -37,27 +22,9 @@ class Application extends Script {
         }
     }
 
-    Logger logger = Logger.getLogger(Application.getName())
+    Logger logger = Logger.getLogger(Main.getName())
 
     List controlKeys = ['⌫', '⇥', '↩', '⌘', '⇧', '⎋', 'fn', 'f16', '⌃', '⌥', '**␣**', '↩', '⌥', '←', '↑', '↓', '→']
-
-    Map hardwareKeymap = ['§' : 'grave_accent_and_tilde', '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '0': '0', '-': 'hyphen', '=': 'equal_sign', '⌫': 'delete_or_backspace',
-                          '⇥' : 'tab', 'q': 'q', 'w': 'w', 'e': 'e', 'r': 'r', 't': 't', 'y': 'y', 'u': 'u', 'i': 'i', 'o': 'o', 'p': 'p', '[': 'open_bracket', ']': 'close_bracket', '↩': 'return_or_enter',
-                          '⌘' : 'left_command', 'a': 'a', 's': 's', 'd': 'd', 'f': 'f', 'g': 'g', 'h': 'h', 'j': 'j', 'k': 'k', 'l': 'l', ';': 'semicolon', '\'': 'quote', '\\': 'backslash',
-                          '⇧' : 'left_shift', '⎋': 'escape', 'z': 'z', 'x': 'x', 'c': 'c', 'v': 'v', 'b': 'b', 'n': 'n', 'm': 'm', ',': 'comma', '.': 'period', '/': 'slash', '⇧': 'shift',
-                          'fn': 'fn', 'f16': 'f16', '⌃': 'left_control', '⌥': 'left_option', '**␣**': 'spacebar', '↩': 'return_or_enter', '⌥': 'option', '←': 'left_arrow', '↑': 'up_arrow', '↓': 'down_arrow', '→': 'right_arrow']
-
-    Map usKeymap = ['§' : '`', '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '0': '0', '-': '-', '=': '=', '⌫': 'remove_previous_symbol',
-                    '⇥' : '', 'q': 'q', 'w': 'w', 'e': 'e', 'r': 'r', 't': 't', 'y': 'y', 'u': 'u', 'i': 'i', 'o': 'o', 'p': 'p', '[': '[', ']': ']', '↩': '',
-                    '⌘' : '', 'a': 'a', 's': 's', 'd': 'd', 'f': 'f', 'g': 'g', 'h': 'h', 'j': 'j', 'k': 'k', 'l': 'l', ';': ';', '\'': '\'', '\\': '\\',
-                    '⇧' : '', '⎋': '', 'z': 'z', 'x': 'x', 'c': 'c', 'v': 'v', 'b': 'b', 'n': 'n', 'm': 'm', ',': ',', '.': '.', '/': '/',
-                    'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
-
-    Map shiftUsKeymap = ['§' : '~', '1': '!', '2': '@', '3': '#', '4': '$', '5': '%', '6': '^', '7': '&', '8': '*', '9': '(', '0': ')', '-': '_', '=': '+', '⌫': '',
-                         '⇥' : '', 'q': 'Q', 'w': 'W', 'e': 'E', 'r': 'R', 't': 'T', 'y': 'Y', 'u': 'U', 'i': 'I', 'o': 'O', 'p': 'P', '[': '{', ']': '}', '↩': '',
-                         '⌘' : '', 'a': 'A', 's': 'S', 'd': 'D', 'f': 'F', 'g': 'G', 'h': 'H', 'j': 'J', 'k': 'K', 'l': 'L', ';': ':', '\'': '"', '\\': '|',
-                         '⇧' : '', '⎋': '', 'z': 'Z', 'x': 'X', 'c': 'C', 'v': 'V', 'b': 'B', 'n': 'N', 'm': 'M', ',': '<', '.': '>', '/': '?',
-                         'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': 'left_select', '↑': 'up_select', '↓': 'down_select', '→': 'right_select']
 
     Map commandMacOsKeymap = ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
                               '⇥' : 'switch_apps', 'q': 'quit', 'w': 'close', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': 'open', 'p': 'print', '[': '', ']': '', '↩': '',

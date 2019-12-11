@@ -74,3 +74,23 @@ Conditions will define on the mapping level
 
 It may be useful if condition and modifiers will be saved near to keymap. In that case,
  user will create layout directly, without deviding on keymap, modifiers, condition
+ 
+### Invalid model for conditions
+
+Double `condition`
+
+```json
+"conditions" : [ {
+        "condition" : {
+          "type" : "input_source_if",
+          "input_sources" : [ {
+            "language" : "en",
+            "input_source_id" : "com.apple.keylayout.US"
+          } ]
+        }
+      } ]
+```
+
+### Support different kind of symbols
+
+Possible to implement FromSymbol, ToSymbol, VariableSymbol and other
