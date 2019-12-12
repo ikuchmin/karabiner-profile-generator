@@ -2,32 +2,25 @@ package ru.udya.layout.impl.actionmacos
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition
-import ru.udya.layout.LayoutModifiers
 import ru.udya.layout.impl.language.ProgrammingDvorakLayout
 
-import static ru.udya.layout.LayoutModifiers.Modifier.LEFT_COMMAND
-import static ru.udya.layout.impl.LayoutHelper.remapKeymapOnNewBase
+import javax.inject.Inject
+
+import static ru.udya.layout.impl.LayoutHelper.remapLayoutOnNewBase
 
 class ProgrammingDvorakCommandLayout implements Layout {
 
-    @Override
-    String getName() {
-        return 'commandProgrammingDvorak'
-    }
+    @Delegate
+    Layout programmingDvorakCommandLayout
 
-    @Override
-    Map getKeymap() {
-        return remapKeymapOnNewBase(EnUsCommandLayout.KEYMAP,
-                ProgrammingDvorakLayout.KEYMAP)
-    }
+    @Inject
+    ProgrammingDvorakCommandLayout(EnUsCommandLayout enUsCommandLayout,
+                                   ProgrammingDvorakLayout programmingDvorakLayout) {
 
-    @Override
-    LayoutModifiers getModifiers() {
-        return [mandatory: [LEFT_COMMAND], optional: []] as LayoutModifiers
-    }
+        this.programmingDvorakCommandLayout =
+                remapLayoutOnNewBase('programmingDvorakCommand',
+                        enUsCommandLayout, programmingDvorakLayout,
+                        [LayoutCondition.PROGRAMMING_DVORAK_LAYOUT_CONDITION])
 
-    @Override
-    List<LayoutCondition> getLayoutCondition() {
-        return [LayoutCondition.PROGRAMMING_DVORAK_LAYOUT_CONDITION]
     }
 }

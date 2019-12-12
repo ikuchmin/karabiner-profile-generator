@@ -2,13 +2,16 @@ package ru.udya
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.SerializationFeature
+import com.google.inject.Guice
+import com.google.inject.Injector
 import groovy.transform.Canonical
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.udya.layout.Layout
-import ru.udya.layout.LayoutCondition
-import ru.udya.layout.LayoutRegistry
+import ru.udya.layout.LayoutModule
+
 import ru.udya.layout.LayoutSymbol
+import ru.udya.layout.impl.HardwareLayout
 import ru.udya.layout.impl.actionmacos.EnUsCommandLayout
 import ru.udya.layout.impl.actionmacos.ProgrammingDvorakCommandLayout
 import ru.udya.layout.impl.ergoemacs.ErgoEmacsNavigationLayout
@@ -16,6 +19,8 @@ import ru.udya.layout.impl.language.EnUsLayout
 import ru.udya.layout.impl.language.EnUsShiftLayout
 import ru.udya.layout.impl.language.ProgrammingDvorakShiftLayout
 import ru.udya.layout.impl.language.ProgrammingDvorakLayout
+
+import javax.inject.Inject
 
 @Canonical
 class Application {
@@ -40,12 +45,24 @@ class Application {
              targetLayout    : ErgoEmacsNavigationLayout,
              baseLayouts: [ProgrammingDvorakCommandLayout]]]
 
-    LayoutRegistry layoutRegistry;
+    //LayoutRegistry layoutRegistry;
+
+    Injector injector
+
+    @Inject
+    Application(Injector injector) {
+        this.injector = injector
+    }
 
     static void main(String[] args) {
-        LayoutRegistry layoutRegistry = LayoutRegistry.defaultRegistry()
+        //LayoutRegistry layoutRegistry = LayoutRegistry.defaultRegistry()
 
-        new Application(layoutRegistry).run()
+        Injector injector = Guice.createInjector(new LayoutModule())
+        println(injector.getInstance(EnUsCommandLayout).name)
+        injector.getInstance(Application).run()
+        //def layoutRegistry1 = injector.getInstance(LayoutRegistry)
+
+        //new Application(layoutRegistry).run()
     }
 
     void run() {
@@ -56,10 +73,10 @@ class Application {
             logger.info('Mapping description: {}', rule.desc)
 
             Map<String, List<LayoutSymbol>> baseSymbols = rule.baseLayouts
-                    .collect { layoutRegistry.findLayoutByClass(rule.baseLayouts).getSymbols() }
+                    .collect { injector.getInstance(it).getSymbols() }
                     .inject { acc, val -> acc + val }
 
-            Layout targetLayout = layoutRegistry.findLayoutByClass(rule.targetLayout)
+            Layout targetLayout = injector.getInstance(rule.targetLayout)
             Map<String, List<LayoutSymbol>> targetSymbols = targetLayout.getSymbols()
 
             List manipulators = targetLayout.keymap
@@ -141,7 +158,7 @@ class Application {
     }
 
     def escapeHardware(def keyCode) {
-        def hardwareLayout = layoutRegistry.findLayoutByName('hardware')
+        def hardwareLayout = injector.getInstance(HardwareLayout)
         return hardwareLayout.keymap[keyCode]
     }
 }

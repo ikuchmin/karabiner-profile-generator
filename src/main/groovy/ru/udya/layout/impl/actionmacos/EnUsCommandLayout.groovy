@@ -2,6 +2,10 @@ package ru.udya.layout.impl.actionmacos
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition
+import ru.udya.layout.LayoutModifiers
+
+import static ru.udya.layout.LayoutModifiers.Modifier.LEFT_COMMAND
+import static ru.udya.layout.LayoutModifiers.Modifier.SHIFT
 
 class EnUsCommandLayout implements Layout {
 
@@ -14,12 +18,17 @@ class EnUsCommandLayout implements Layout {
 
     @Override
     String getName() {
-        return 'commandMacOs'
+        return 'enUsCommand'
     }
 
     @Override
     Map getKeymap() {
         return KEYMAP
+    }
+
+    @Override
+    LayoutModifiers getModifiers() {
+        return [mandatory: [LEFT_COMMAND]] as LayoutModifiers
     }
 
     @Override

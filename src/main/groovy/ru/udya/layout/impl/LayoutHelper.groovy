@@ -1,6 +1,30 @@
 package ru.udya.layout.impl
 
+import ru.udya.layout.Layout
+import ru.udya.layout.LayoutCondition
+import ru.udya.layout.impl.actionmacos.DefaultLayout
+
 class LayoutHelper {
+
+
+    /**
+     * Makes new layout based on another
+     *
+     * @param newNameLayout
+     * @param sourceLayout
+     * @param newBaseLayout
+     * @param conditions
+     * @return
+     */
+    static Layout remapLayoutOnNewBase(String newNameLayout,
+                                       Layout sourceLayout, Layout newBaseLayout,
+                                       List<LayoutCondition> conditions) {
+
+        Map newKeymap = remapKeymapOnNewBase(sourceLayout.keymap, newBaseLayout.keymap)
+
+        return [name: newNameLayout, modifiers: newBaseLayout.modifiers,
+                keymap: newKeymap, conditions: conditions] as DefaultLayout
+    }
 
     /**
      * Makes keymap which map actions in {@param sourceKeymap}
@@ -14,14 +38,14 @@ class LayoutHelper {
      * The result of generation is [i: "copy"]
      *
      * @param sourceKeymap
-     * @param targetKeymap
+     * @param baseKeymap
      * @return
      */
-    static Map remapKeymapOnNewBase(Map sourceKeymap, Map targetKeymap) {
+    static Map remapKeymapOnNewBase(Map sourceKeymap, Map baseKeymap) {
 
         Map genKeymap = [:]
 
-        for (tkv in targetKeymap) {
+        for (tkv in baseKeymap) {
 
             def targetValue = sourceKeymap[tkv.value] ?: ''
 

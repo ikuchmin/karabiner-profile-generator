@@ -22,9 +22,10 @@ trait Layout {
                 continue
             }
 
-            symbols << [(key.value): [[keyCode   : key.key,
+            symbols << [(key.value): [[name      : key.value,
+                                       keyCode   : key.key,
                                        modifiers : getModifiers(),
-                                       conditions: getLayoutCondition()] as LayoutSymbol]]
+                                       conditions: getLayoutCondition()] as LayoutKeySymbol]]
         }
 
         symbols
@@ -69,12 +70,26 @@ class LayoutCondition implements Map {
 }
 
 
-//@Canonical
-class LayoutSymbol {
+interface LayoutSymbol {
+
+    String getName()
+
+}
+
+@Canonical
+class LayoutKeySymbol implements LayoutSymbol {
+
+    String name
 
     String keyCode
 
     LayoutModifiers modifiers = []
 
     List<LayoutCondition> conditions = []
+}
+
+@Canonical
+class LayoutVariableSymbol implements LayoutSymbol {
+
+    String name
 }
