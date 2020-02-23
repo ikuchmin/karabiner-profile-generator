@@ -1,24 +1,25 @@
-package ru.udya.layout.impl.actionmacos
+package ru.udya.layout.impl.en_us.action
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition
 import ru.udya.layout.LayoutModifiers
 
 import static ru.udya.layout.LayoutModifiers.Modifier.FN
+import static ru.udya.layout.LayoutModifiers.Modifier.LEFT_COMMAND
 import static ru.udya.layout.LayoutModifiers.Modifier.SHIFT
 
-class EnUsFnShiftLayout implements Layout {
+class EnUsFnLayout implements Layout {
 
     static final KEYMAP =
-            ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
+            ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': 'remove_next_symbol',
              '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': '', ']': '', '↩': '',
              '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
              '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
-             'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': 'begin_document_select', '↑': 'previous_page_select', '↓': 'next_page_select', '→': 'end_document_select']
+             'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
 
     @Override
     String getName() {
-        return 'enUsFnShift'
+        return 'enUsFn'
     }
 
     @Override
@@ -28,7 +29,7 @@ class EnUsFnShiftLayout implements Layout {
 
     @Override
     LayoutModifiers getModifiers() {
-        return [mandatory: [FN, SHIFT]] as LayoutModifiers
+        return [mandatory: [FN]] as LayoutModifiers
     }
 
     @Override

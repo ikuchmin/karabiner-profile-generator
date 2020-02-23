@@ -1,8 +1,9 @@
-package ru.udya.layout.impl.actionmacos
+package ru.udya.layout.impl.programming_dvorak.action
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition
-import ru.udya.layout.impl.language.ProgrammingDvorakLayout
+import ru.udya.layout.impl.en_us.action.EnUsCommandLayout
+import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakLayout
 
 import javax.inject.Inject
 

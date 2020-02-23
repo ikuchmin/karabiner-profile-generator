@@ -1,4 +1,4 @@
-package ru.udya.layout.impl.language
+package ru.udya.layout.impl.programming_dvorak
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition

@@ -1,4 +1,4 @@
-package ru.udya.layout.impl.actionmacos
+package ru.udya.layout.impl.en_us.action
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition

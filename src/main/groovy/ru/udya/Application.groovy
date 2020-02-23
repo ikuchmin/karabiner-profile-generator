@@ -12,13 +12,12 @@ import ru.udya.layout.LayoutModule
 
 import ru.udya.layout.LayoutSymbol
 import ru.udya.layout.impl.HardwareLayout
-import ru.udya.layout.impl.actionmacos.EnUsCommandLayout
 import ru.udya.layout.impl.actionmacos.ProgrammingDvorakCommandLayout
-import ru.udya.layout.impl.ergoemacs.ErgoEmacsNavigationLayout
-import ru.udya.layout.impl.language.EnUsLayout
-import ru.udya.layout.impl.language.EnUsShiftLayout
-import ru.udya.layout.impl.language.ProgrammingDvorakShiftLayout
-import ru.udya.layout.impl.language.ProgrammingDvorakLayout
+import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsNavigationLayout
+import ru.udya.layout.impl.en_us.EnUsLayout
+import ru.udya.layout.impl.en_us.EnUsShiftLayout
+import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakShiftLayout
+import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakLayout
 
 import javax.inject.Inject
 
@@ -26,7 +25,6 @@ import javax.inject.Inject
 class Application {
 
     private static final Logger logger = LoggerFactory.getLogger(Application);
-
 
     static List MAPPING_RULES = [
             [desc        : 'Remap keys to use Programming Dvorak Layout is covered by enUs',
@@ -55,14 +53,10 @@ class Application {
     }
 
     static void main(String[] args) {
-        //LayoutRegistry layoutRegistry = LayoutRegistry.defaultRegistry()
 
         Injector injector = Guice.createInjector(new LayoutModule())
-        println(injector.getInstance(EnUsCommandLayout).name)
-        injector.getInstance(Application).run()
-        //def layoutRegistry1 = injector.getInstance(LayoutRegistry)
 
-        //new Application(layoutRegistry).run()
+        injector.getInstance(Application).run()
     }
 
     void run() {

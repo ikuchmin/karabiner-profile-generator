@@ -1,4 +1,4 @@
-package ru.udya.layout.impl.actionmacos
+package ru.udya.layout.impl
 
 import groovy.transform.Canonical
 import ru.udya.layout.Layout

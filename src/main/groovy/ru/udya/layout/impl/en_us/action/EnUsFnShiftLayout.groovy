@@ -1,26 +1,24 @@
-package ru.udya.layout.impl.actionmacos
+package ru.udya.layout.impl.en_us.action
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition
 import ru.udya.layout.LayoutModifiers
 
-import static ru.udya.layout.LayoutModifiers.Modifier.LEFT_COMMAND
-import static ru.udya.layout.LayoutModifiers.Modifier.LEFT_OPTION
+import static ru.udya.layout.LayoutModifiers.Modifier.FN
 import static ru.udya.layout.LayoutModifiers.Modifier.SHIFT
 
-class EnUsOptionCommandShiftLayout implements Layout {
-
+class EnUsFnShiftLayout implements Layout {
 
     static final KEYMAP =
             ['§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
              '⇥' : '', 'q': '', 'w': '', 'e': '', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': '', ']': '', '↩': '',
-             '⌘' : '', 'a': '', 's': '', 'd': '', 'f': 'replace', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
-             '⇧' : '', '⎋': 'force_quit', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
-             'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
+             '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
+             '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
+             'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': 'begin_document_select', '↑': 'previous_page_select', '↓': 'next_page_select', '→': 'end_document_select']
 
     @Override
     String getName() {
-        return 'enUsOptionCommandShift'
+        return 'enUsFnShift'
     }
 
     @Override
@@ -30,7 +28,7 @@ class EnUsOptionCommandShiftLayout implements Layout {
 
     @Override
     LayoutModifiers getModifiers() {
-        return [mandatory: [LEFT_OPTION, LEFT_COMMAND, SHIFT]] as LayoutModifiers
+        return [mandatory: [FN, SHIFT]] as LayoutModifiers
     }
 
     @Override

@@ -1,4 +1,4 @@
-package ru.udya.layout.impl.ergoemacs
+package ru.udya.layout.impl.ergoemacs.action
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutModifiers

@@ -2,7 +2,6 @@ package ru.udya.layout.impl
 
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutCondition
-import ru.udya.layout.impl.actionmacos.DefaultLayout
 
 class LayoutHelper {
 
@@ -30,8 +29,8 @@ class LayoutHelper {
      * Makes keymap which map actions in {@param sourceKeymap}
      * on {@param targetKeymap}. For example, in US keymap
      * action "copy" is mapped on "ctrl+c", but in Dvorak
-     * the action is mapped on "ctrl+i". It is default
-     * behaviour for macOS.
+     * the action is mapped on "ctrl+i" (just to try pressing on keyboard).
+     * It is default behaviour for macOS.
      *
      * The method realizes that "copy" is the key "c" in
      * sourceKeymap, and "c" is the key "i" in {@param targetKeymap}.
