@@ -12,12 +12,14 @@ import ru.udya.layout.LayoutModule
 
 import ru.udya.layout.LayoutSymbol
 import ru.udya.layout.impl.HardwareLayout
-import ru.udya.layout.impl.actionmacos.ProgrammingDvorakCommandLayout
 import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsNavigationLayout
 import ru.udya.layout.impl.en_us.EnUsLayout
 import ru.udya.layout.impl.en_us.EnUsShiftLayout
 import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakShiftLayout
 import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakLayout
+import ru.udya.layout.impl.programming_dvorak.action.ProgrammingDvorakCommandLayout
+import ru.udya.layout.mixin.DisableSelectionLayoutMixin
+import ru.udya.layout.mixin.LayoutMixin
 
 import javax.inject.Inject
 
@@ -29,7 +31,8 @@ class Application {
     static List MAPPING_RULES = [
             [desc        : 'Remap keys to use Programming Dvorak Layout is covered by enUs',
              targetLayout: ProgrammingDvorakLayout,
-             baseLayouts : [EnUsLayout]],
+             baseLayouts : [EnUsLayout],
+             mixins      : [DisableSelectionLayoutMixin]],
 
             [desc        : 'Remap keys to use Programming Dvorak Layout is covered by enUs [shift]',
              targetLayout: ProgrammingDvorakShiftLayout,
@@ -39,11 +42,9 @@ class Application {
 //             targetLayout: EnUsCommandLayout,
 //             baseLayouts : [ProgrammingDvorakCommandLayout]],
 
-            [desc      : 'Remap keys to use ErgoEmacs Layout is covered by Programming Dvorak [navigation]',
-             targetLayout    : ErgoEmacsNavigationLayout,
-             baseLayouts: [ProgrammingDvorakCommandLayout]]]
-
-    //LayoutRegistry layoutRegistry;
+            [desc        : 'Remap keys to use ErgoEmacs Layout is covered by Programming Dvorak [navigation]',
+             targetLayout: ErgoEmacsNavigationLayout,
+             baseLayouts : [ProgrammingDvorakCommandLayout]]]
 
     Injector injector
 
@@ -75,7 +76,7 @@ class Application {
 
             List manipulators = targetLayout.keymap
                     .findAll { !it.value.empty }
-                    .collect { createManipulator(it, targetSymbols, baseSymbols) }
+                    .collect { createManipulator(it, targetSymbols, baseSymbols, rule.mixins ?: []) }
                     .findAll { it != Collections.emptyMap() }
 
             rules << [description: rule.desc, manipulators: manipulators]
@@ -91,7 +92,8 @@ class Application {
 
     Map createManipulator(def targetKey,
                           Map<String, List<LayoutSymbol>> targetSymbols,
-                          Map<String, List<LayoutSymbol>> baseSymbols) {
+                          Map<String, List<LayoutSymbol>> baseSymbols,
+                          List<LayoutMixin> layoutMixins) {
 
 
         def fromKeySymbol = targetSymbols[targetKey.value]
@@ -120,9 +122,20 @@ class Application {
 
         def fromKarabinerStructure = createFromKarabinerStructure(fromKeySymbol)
         def toKarabinerStructure = createToKarabinerStructure(toKeySymbol)
+        def conditionKarabinerStructure = toKeySymbol.conditions
 
-        return createManipulatorStructure(fromKarabinerStructure,
-                toKarabinerStructure, toKeySymbol.conditions)
+        def karabinerStructure = createManipulatorStructure(fromKarabinerStructure,
+                toKarabinerStructure, conditionKarabinerStructure)
+
+        if (! layoutMixins.empty) {
+
+            layoutMixins.each { m ->
+                def instance = injector.getInstance(m)
+                karabinerStructure = instance.modify(karabinerStructure)
+            }
+        }
+
+        return karabinerStructure
     }
 
     def createFromKarabinerStructure(List<LayoutSymbol> symbol) {

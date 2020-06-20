@@ -27,7 +27,7 @@ class EnUsShiftLayout implements Layout {
 
     @Override
     LayoutModifiers getModifiers() {
-        return [mandatory: SHIFT] as LayoutModifiers
+        return [mandatory: [SHIFT]] as LayoutModifiers
     }
 
     @Override
