@@ -12,9 +12,12 @@ import ru.udya.layout.LayoutModule
 
 import ru.udya.layout.LayoutSymbol
 import ru.udya.layout.impl.HardwareLayout
-import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsNavigationLayout
 import ru.udya.layout.impl.en_us.EnUsLayout
 import ru.udya.layout.impl.en_us.EnUsShiftLayout
+import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsCommandLayout
+import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsOptionLayout
+import ru.udya.layout.impl.firefox.FirefoxLayout
+import ru.udya.layout.impl.intellij.IntelliJCommandLayout
 import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakShiftLayout
 import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakLayout
 import ru.udya.layout.impl.programming_dvorak.action.ProgrammingDvorakCommandLayout
@@ -31,19 +34,27 @@ class Application {
     static List MAPPING_RULES = [
             [desc        : 'Remap keys to use Programming Dvorak Layout is covered by enUs',
              targetLayout: ProgrammingDvorakLayout,
-             baseLayouts : [EnUsLayout],
+             baseLayouts : [EnUsLayout, EnUsShiftLayout],
              mixins      : [DisableSelectionLayoutMixin]],
 
             [desc        : 'Remap keys to use Programming Dvorak Layout is covered by enUs [shift]',
              targetLayout: ProgrammingDvorakShiftLayout,
-             baseLayouts : [EnUsShiftLayout]],
+             baseLayouts : [EnUsLayout, EnUsShiftLayout]],
+
+            [desc        : 'Remap keys to use ErgoEmacs Layout for Firefox',
+             targetLayout: ErgoEmacsCommandLayout,
+             baseLayouts : [FirefoxLayout]],
+
+            [desc        : 'Remap keys to use ErgoEmacs Layout for IntelliJ IDEA',
+             targetLayout: ErgoEmacsCommandLayout,
+             baseLayouts : [IntelliJCommandLayout]],
 
 //            [desc        : 'Remap keys to use ErgoEmacs Layout is covered by Programming Dvorak [action]',
 //             targetLayout: EnUsCommandLayout,
 //             baseLayouts : [ProgrammingDvorakCommandLayout]],
 
             [desc        : 'Remap keys to use ErgoEmacs Layout is covered by Programming Dvorak [navigation]',
-             targetLayout: ErgoEmacsNavigationLayout,
+             targetLayout: ErgoEmacsOptionLayout,
              baseLayouts : [ProgrammingDvorakCommandLayout]]]
 
     Injector injector

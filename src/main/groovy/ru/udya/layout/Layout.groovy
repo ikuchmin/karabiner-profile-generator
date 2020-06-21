@@ -65,6 +65,15 @@ class LayoutCondition implements Map {
                          input_sources: [[language       : 'en',
                                           input_source_id: 'com.apple.keyboardlayout.Programmer Dvorak']]]] as LayoutCondition
 
+    static final LayoutCondition INTELLIJ_LAYOUT_CONDITION =
+            [condition: [type         : 'frontmost_application_if',
+                         bundle_identifiers: [ '^com\\.jetbrains\\.intellij$' ]]] as LayoutCondition
+
+    static final LayoutCondition FIREFOX_LAYOUT_CONDITION =
+            [condition: [type         : 'frontmost_application_if',
+                         bundle_identifiers: [ '^org\\.mozilla\\.firefox$' ]]] as LayoutCondition
+
+
     @Delegate
     Map condition
 }

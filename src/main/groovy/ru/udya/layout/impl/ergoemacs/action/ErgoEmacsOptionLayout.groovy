@@ -3,7 +3,7 @@ package ru.udya.layout.impl.ergoemacs.action
 import ru.udya.layout.Layout
 import ru.udya.layout.LayoutModifiers
 
-class ErgoEmacsNavigationLayout implements Layout {
+class ErgoEmacsOptionLayout implements Layout {
 
     static final KEYMAP =
             ['§' : '', '1': '', '2': 'close_pane', '3': 'close_other_pane', '4': 'split_vertically', '5': 'replace', '6': 'select_block', '7': 'select_line', '8': 'select_region', '9': '', '0': '', '-': '', '=': '', '⌫': '',
@@ -14,7 +14,7 @@ class ErgoEmacsNavigationLayout implements Layout {
 
     @Override
     String getName() {
-        return 'ergoEmacsNavigation'
+        return 'ergoEmacsOption'
     }
 
     @Override
