@@ -15,9 +15,11 @@ import ru.udya.layout.impl.HardwareLayout
 import ru.udya.layout.impl.en_us.EnUsLayout
 import ru.udya.layout.impl.en_us.EnUsShiftLayout
 import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsCommandLayout
+import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsCommandShiftLayout
 import ru.udya.layout.impl.ergoemacs.action.ErgoEmacsOptionLayout
 import ru.udya.layout.impl.firefox.FirefoxLayout
 import ru.udya.layout.impl.intellij.IntelliJCommandLayout
+import ru.udya.layout.impl.intellij.IntelliJCommandShiftLayout
 import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakShiftLayout
 import ru.udya.layout.impl.programming_dvorak.ProgrammingDvorakLayout
 import ru.udya.layout.impl.programming_dvorak.action.ProgrammingDvorakCommandLayout
@@ -29,7 +31,7 @@ import javax.inject.Inject
 @Canonical
 class Application {
 
-    private static final Logger logger = LoggerFactory.getLogger(Application);
+    private static final Logger logger = LoggerFactory.getLogger(Application)
 
     static List MAPPING_RULES = [
             [desc        : 'Remap keys to use Programming Dvorak Layout is covered by enUs',
@@ -45,9 +47,13 @@ class Application {
              targetLayout: ErgoEmacsCommandLayout,
              baseLayouts : [FirefoxLayout]],
 
-            [desc        : 'Remap keys to use ErgoEmacs Layout for IntelliJ IDEA',
+            [desc        : 'Remap keys to use ErgoEmacs Layout for IntelliJ IDEA [command]',
              targetLayout: ErgoEmacsCommandLayout,
              baseLayouts : [IntelliJCommandLayout]],
+
+            [desc        : 'Remap keys to use ErgoEmacs Layout for IntelliJ IDEA [command+shift]',
+             targetLayout: ErgoEmacsCommandShiftLayout,
+             baseLayouts : [IntelliJCommandShiftLayout]],
 
 //            [desc        : 'Remap keys to use ErgoEmacs Layout is covered by Programming Dvorak [action]',
 //             targetLayout: EnUsCommandLayout,

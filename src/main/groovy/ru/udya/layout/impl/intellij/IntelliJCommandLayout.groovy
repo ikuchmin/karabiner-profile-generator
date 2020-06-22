@@ -9,7 +9,7 @@ class IntelliJCommandLayout implements Layout {
     static final KEYMAP =
             ['f1': '', 'f2': '', 'f3': '', 'f4': '', 'f5': '', 'f6': '', 'f7': '', 'f8': '', 'f9': '', 'f10': '', 'f11': '', 'f12': '',
              '§' : '', '1': '', '2': '', '3': '', '4': '', '5': '', '6': '', '7': '', '8': '', '9': '', '0': '', '-': '', '=': '', '⌫': '',
-             '⇥' : '', 'q': '', 'w': '', 'e': 'recent_tab_files', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': '', 'p': '', '[': '', ']': '', '↩': '',
+             '⇥' : '', 'q': '', 'w': '', 'e': 'recent_tab_files', 'r': '', 't': '', 'y': '', 'u': '', 'i': '', 'o': 'edit_file', 'p': '', '[': '', ']': '', '↩': '',
              '⌘' : '', 'a': '', 's': '', 'd': '', 'f': '', 'g': '', 'h': '', 'j': '', 'k': '', 'l': '', ';': '', '\'': '', '\\': '',
              '⇧' : '', '⎋': '', 'z': '', 'x': '', 'c': '', 'v': '', 'b': '', 'n': '', 'm': '', ',': '', '.': '', '/': '',
              'fn': '', 'f16': '', '⌃': '', '⌥': '', '**␣**': '', '←': '', '↑': '', '↓': '', '→': '']
@@ -26,7 +26,7 @@ class IntelliJCommandLayout implements Layout {
 
     @Override
     LayoutModifiers getModifiers() {
-        return [LayoutModifiers.Modifier.LEFT_COMMAND]
+        return [mandatory: [LayoutModifiers.Modifier.LEFT_COMMAND]] as LayoutModifiers
     }
 
 
